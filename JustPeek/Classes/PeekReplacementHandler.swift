@@ -59,14 +59,16 @@ import UIKit
             break
             
         case .ended, .cancelled:
-            commitOperation?.cancel()
-            if !preventFromPopping {
-                // delay for UI Tests
-                let delayTime = DispatchTime.now() + Double(Int64(0.1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-                DispatchQueue.main.asyncAfter(deadline: delayTime) { [weak self] in
-                    self?.pop()
-                }
-            }
+              // code commented out, so peeks keep being shown
+              {}()
+//            commitOperation?.cancel()
+//            if !preventFromPopping {
+//                // delay for UI Tests
+//                let delayTime = DispatchTime.now() + Double(Int64(0.1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+//                DispatchQueue.main.asyncAfter(deadline: delayTime) { [weak self] in
+//                    self?.pop()
+//                }
+//            }
             
         default:
             break
