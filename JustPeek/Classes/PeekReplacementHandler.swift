@@ -89,20 +89,18 @@ import UIKit
         peekContext?.destinationViewController?.viewWillDisappear(true)
         peekViewController?.pop({ (_) in
             window?.isHidden = true
-            self.peekContext?.destinationViewController?.viewDidAppear(true)
+            self.peekContext?.destinationViewController?.viewDidDisappear(true)
             completion?()
         })
     }
     
     internal func commit() {
         preventFromPopping = false
-        let window = presentationWindow
-        peekContext?.destinationViewController?.viewWillDisappear(true)
-        peekViewController?.pop({ (_) in
-            window?.isHidden = true
-            self.peekContext?.destinationViewController?.viewDidDisappear(true)
-            completion?()
-        })
+        pop { [weak self] in
+            guard let strongSelf = self, let peekContext = strongSelf.peekContext else { return }
+            guard let destinationViewController = peekContext.destinationViewController else { return }
+            strongSelf.delegate?.peekContext(peekContext, commit: destinationViewController)
+        }
     }
     
     // This function purely exists to make objc happy when trying to call pop from the UIGestureRecognizer selector
